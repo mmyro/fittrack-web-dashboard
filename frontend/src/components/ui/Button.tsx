@@ -2,6 +2,7 @@ import type { ButtonHTMLAttributes } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost'
+  size?: 'md' | 'sm'
   loading?: boolean
 }
 
@@ -12,8 +13,14 @@ const variants = {
   ghost: 'text-slate-700 hover:bg-slate-100',
 }
 
+const sizes = {
+  md: 'h-11 px-5',
+  sm: 'h-9 px-3 text-sm',
+}
+
 export function Button({
   variant = 'primary',
+  size = 'md',
   loading = false,
   disabled,
   className = '',
@@ -23,7 +30,7 @@ export function Button({
   return (
     <button
       disabled={disabled || loading}
-      className={`inline-flex h-11 items-center justify-center gap-2 rounded-xl px-5 font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 ${variants[variant]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-xl font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 ${sizes[size]} ${variants[variant]} ${className}`}
       {...props}
     >
       {loading && (

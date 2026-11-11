@@ -4,6 +4,8 @@ import { ProtectedRoute } from './routes/ProtectedRoute'
 import DashboardPage from './pages/DashboardPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import { AppLayout } from './components/layout/AppLayout'
+import WorkoutsPage from './pages/WorkoutsPage'
 
 function App() {
   return (
@@ -14,7 +16,10 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<DashboardPage />} />
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<DashboardPage />} />
+              <Route path="/workouts" element={<WorkoutsPage />} />
+            </Route>
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />
