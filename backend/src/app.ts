@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { env } from './config/env';
+import authRoutes from './routes/auth.routes';
+import { errorHandler, notFound } from './middleware/error.middleware';
 
 const app = express();
 
@@ -15,5 +17,10 @@ app.get('/api/health', (_req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+app.use('/api/auth', authRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 export default app;
