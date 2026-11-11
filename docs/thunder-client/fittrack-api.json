@@ -1,0 +1,131 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "FitTrack API",
+    "collectionId": "bb8bfc0b-cc42-45fe-8a0d-12a56aef9ab0",
+    "dateExported": "2026-11-11T18:42:36.925Z",
+    "version": "1.4",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "68522f3d-78f2-41d6-a8a4-5fee7aa05c20",
+            "colId": "bb8bfc0b-cc42-45fe-8a0d-12a56aef9ab0",
+            "containerId": "",
+            "name": "http://localhost:5000/api/workouts",
+            "url": "http://localhost:5000/api/workouts/stats",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2026-11-11T18:38:41.650Z",
+            "modified": "2026-11-11T18:38:41.650Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer"
+                }
+            ]
+        },
+        {
+            "_id": "776cf95b-87d8-4ee4-b5fb-2a559db00730",
+            "colId": "bb8bfc0b-cc42-45fe-8a0d-12a56aef9ab0",
+            "containerId": "",
+            "name": "http://localhost:5000/api/auth/register",
+            "url": "http://localhost:5000/api/auth/login",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2026-11-11T18:38:50.272Z",
+            "modified": "2026-11-11T18:38:50.272Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{\r",
+                    "  \"email\": \"teste@fittrack.com\",\r",
+                    "  \"password\": \"password123\"\r",
+                    "}"
+                ],
+                "form": []
+            }
+        },
+        {
+            "_id": "34e690d5-4b70-4e7c-a08d-2f66378dd7b9",
+            "colId": "bb8bfc0b-cc42-45fe-8a0d-12a56aef9ab0",
+            "containerId": "",
+            "name": "http://localhost:5000/api/auth/register",
+            "url": "http://localhost:5000/api/auth/register",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2026-11-11T18:38:54.188Z",
+            "modified": "2026-11-11T18:38:54.188Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{\r",
+                    "  \"name\": \"Rui Costa\",\r",
+                    "  \"email\": \"rui@test.com\",\r",
+                    "  \"password\": \"12345678\"\r",
+                    "}"
+                ],
+                "form": []
+            }
+        },
+        {
+            "_id": "b93357e6-cab9-4536-b71f-f6a435afa853",
+            "colId": "bb8bfc0b-cc42-45fe-8a0d-12a56aef9ab0",
+            "containerId": "",
+            "name": "http://localhost:5000/api/auth/login",
+            "url": "http://localhost:5000/api/auth/me",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2026-11-11T18:38:58.049Z",
+            "modified": "2026-11-11T18:38:58.049Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{",
+                    "  \"email\": \"rui@test.com\",",
+                    "  \"password\": \"12345678\"",
+                    "}"
+                ],
+                "form": []
+            }
+        },
+        {
+            "_id": "825066d8-4e90-4f48-a80e-9a8e06471f81",
+            "colId": "bb8bfc0b-cc42-45fe-8a0d-12a56aef9ab0",
+            "containerId": "",
+            "name": "http://localhost:5000/api/auth/login",
+            "url": "http://localhost:5000/api/workouts/6af4aadc46e39f7902faae55",
+            "method": "PUT",
+            "sortNum": 50000,
+            "created": "2026-11-11T18:39:01.358Z",
+            "modified": "2026-11-11T18:39:01.358Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer "
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": [
+                    "{",
+                    "  \"title\": \"Morning run\",",
+                    "  \"activityType\": \"Cardio\",",
+                    "  \"durationMinutes\": 45,",
+                    "  \"caloriesBurned\": 420,",
+                    "  \"date\": \"2026-11-11\",",
+                    "  \"notes\": \"5 km along the river\"",
+                    "}"
+                ],
+                "form": []
+            }
+        }
+    ],
+    "ref": "byJyRcZdmQpC04PdmucSpX9cdBoMHyMIwYDP0IQKiGoEtclRBmZyCweqmqftFwJqDd1-sMw26rylnZMGI7FtBg"
+}
