@@ -18,3 +18,10 @@ export const workoutSchema = z.object({
   date: z.coerce.date({ message: 'Invalid date' }),
   notes: z.string().trim().max(500, 'Notes must have at most 500 characters').optional(),
 });
+
+export const listQuerySchema = z.object({
+  type: z.enum(ACTIVITY_TYPES).optional(),
+  search: z.string().trim().max(100).optional(),
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(9),
+});

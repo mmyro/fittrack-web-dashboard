@@ -1,5 +1,6 @@
 import { isValidObjectId } from 'mongoose';
-import { Workout } from '../models/Workout';
+import { FilterQuery } from 'mongoose';
+import { IWorkout, Workout } from '../models/Workout';
 import { ApiError } from '../utils/ApiError';
 import { asyncHandler } from '../utils/asyncHandler';
 
@@ -15,8 +16,42 @@ export const createWorkout = asyncHandler(async (req, res) => {
 });
 
 export const getWorkouts = asyncHandler(async (req, res) => {
-  const workouts = await Workout.find({ user: req.user!.id }).sort({ date: -1 });
-  res.status(200).json({ workouts });
+  const { type, search, page, limit } = res.locals.query as {
+    type?: string;
+    search?: string;
+    page: number;
+    limit: number;
+  };
+
+  const filter: FilterQuery<IWorkout> = { user: req.user!.id };
+
+  if (type) {
+    filter.activityType = type;
+  }
+
+  if (search) {
+    // Escape regex special characters so the search is always a plain text match
+    const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    filter.title = { $regex: escaped, $options: 'i' };
+  }
+
+  const [workouts, total] = await Promise.all([
+    Workout.find(filter)
+      .sort({ date: -1, createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit),
+    Workout.countDocuments(filter),
+  ]);
+
+  res.status(200).json({
+    workouts,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  });
 });
 
 export const getWorkoutById = asyncHandler(async (req, res) => {
