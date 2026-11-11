@@ -1,4 +1,5 @@
 import type { FieldError } from '../api/errors'
+import { ACTIVITY_TYPES, type ActivityType } from '../types'
 
 export type FieldErrors = Record<string, string>
 
@@ -50,4 +51,56 @@ export function toFieldErrors(errors: FieldError[]): FieldErrors {
     }
   }
   return result
+}
+
+export interface WorkoutFormValues {
+  title: string
+  activityType: ActivityType
+  durationMinutes: string
+  caloriesBurned: string
+  date: string
+  notes: string
+}
+
+export function validateWorkout(values: WorkoutFormValues): FieldErrors {
+  const errors: FieldErrors = {}
+
+  const title = values.title.trim()
+  if (title.length < 1 || title.length > 100) {
+    errors.title = 'Title must have between 1 and 100 characters'
+  }
+
+  if (!ACTIVITY_TYPES.includes(values.activityType)) {
+    errors.activityType = 'Choose a category'
+  }
+
+  const duration = Number(values.durationMinutes)
+  if (
+    values.durationMinutes.trim() === '' ||
+    !Number.isInteger(duration) ||
+    duration < 1 ||
+    duration > 1440
+  ) {
+    errors.durationMinutes = 'Duration must be a whole number between 1 and 1440 minutes'
+  }
+
+  const calories = Number(values.caloriesBurned)
+  if (
+    values.caloriesBurned.trim() === '' ||
+    Number.isNaN(calories) ||
+    calories < 0 ||
+    calories > 20000
+  ) {
+    errors.caloriesBurned = 'Calories must be between 0 and 20000'
+  }
+
+  if (!values.date || Number.isNaN(new Date(values.date).getTime())) {
+    errors.date = 'Choose a valid date'
+  }
+
+  if (values.notes.trim().length > 500) {
+    errors.notes = 'Notes must have at most 500 characters'
+  }
+
+  return errors
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getApiError } from '../api/errors'
 import { workoutService } from '../api/workout.service'
 import { Button } from '../components/ui/Button'
@@ -7,7 +7,10 @@ import { ErrorMessage } from '../components/ui/ErrorMessage'
 import { SearchIcon } from '../components/ui/Icons'
 import { LoadingState } from '../components/ui/LoadingState'
 import { Pagination } from '../components/ui/Pagination'
+import { Toast, type Notice } from '../components/ui/Toast'
 import { ActivityFilter } from '../components/workouts/ActivityFilter'
+import { DeleteConfirmation } from '../components/workouts/DeleteConfirmation'
+import { WorkoutFormModal } from '../components/workouts/WorkoutFormModal'
 import { WorkoutList } from '../components/workouts/WorkoutList'
 import { useDebounce } from '../hooks/useDebounce'
 import type { ActivityType, Pagination as PaginationData, Workout } from '../types'
@@ -25,6 +28,9 @@ interface Failure {
   message: string
 }
 
+// null = closed, 'new' = create form, a Workout = edit form
+type FormTarget = 'new' | Workout | null
+
 export default function WorkoutsPage() {
   const [type, setType] = useState<ActivityType | undefined>(undefined)
   const [searchInput, setSearchInput] = useState('')
@@ -32,6 +38,11 @@ export default function WorkoutsPage() {
   const [reloadCount, setReloadCount] = useState(0)
   const [result, setResult] = useState<Result | null>(null)
   const [failure, setFailure] = useState<Failure | null>(null)
+  const [formTarget, setFormTarget] = useState<FormTarget>(null)
+  const [deleteTarget, setDeleteTarget] = useState<Workout | null>(null)
+  const [notice, setNotice] = useState<Notice | null>(null)
+
+  const dismissNotice = useCallback(() => setNotice(null), [])
 
   const search = useDebounce(searchInput.trim(), 400)
 
@@ -70,11 +81,32 @@ export default function WorkoutsPage() {
     setPage(1)
   }
 
+  function handleSaved(message: string) {
+    setFormTarget(null)
+    setNotice({ type: 'success', message })
+    setReloadCount((count) => count + 1)
+  }
+
+  function handleDeleted() {
+    setDeleteTarget(null)
+    setNotice({ type: 'success', message: 'Workout deleted' })
+
+    // Deleting the only workout of the last page: go back one page
+    if (current && current.workouts.length === 1 && page > 1) {
+      setPage(page - 1)
+    } else {
+      setReloadCount((count) => count + 1)
+    }
+  }
+
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-slate-900">Workouts</h1>
-        <p className="mt-1 text-slate-600">Your training history.</p>
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Workouts</h1>
+          <p className="mt-1 text-slate-600">Your training history.</p>
+        </div>
+        <Button onClick={() => setFormTarget('new')}>+ New workout</Button>
       </div>
 
       <div className="mb-6 space-y-4">
@@ -110,14 +142,20 @@ export default function WorkoutsPage() {
         <EmptyState
           title={filtering ? 'No workouts match your filters' : 'No workouts yet'}
           description={
-            filtering ? 'Try a different search or category.' : 'Your logged workouts will appear here.'
+            filtering
+              ? 'Try a different search or category.'
+              : 'Create your first workout with the New workout button.'
           }
         />
       )}
 
       {current && current.workouts.length > 0 && (
         <>
-          <WorkoutList workouts={current.workouts} />
+          <WorkoutList
+            workouts={current.workouts}
+            onEdit={(workout) => setFormTarget(workout)}
+            onDelete={(workout) => setDeleteTarget(workout)}
+          />
           <Pagination
             page={current.pagination.page}
             totalPages={current.pagination.totalPages}
@@ -125,6 +163,24 @@ export default function WorkoutsPage() {
           />
         </>
       )}
+
+      {formTarget && (
+        <WorkoutFormModal
+          workout={formTarget === 'new' ? undefined : formTarget}
+          onClose={() => setFormTarget(null)}
+          onSaved={handleSaved}
+        />
+      )}
+
+      {deleteTarget && (
+        <DeleteConfirmation
+          workout={deleteTarget}
+          onClose={() => setDeleteTarget(null)}
+          onDeleted={handleDeleted}
+        />
+      )}
+
+      <Toast notice={notice} onDismiss={dismissNotice} />
     </div>
   )
 }
