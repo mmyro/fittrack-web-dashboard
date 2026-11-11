@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   createWorkout,
   deleteWorkout,
+  getStats,
   getWorkoutById,
   getWorkouts,
   updateWorkout,
@@ -15,6 +16,7 @@ const router = Router();
 router.use(protect);
 
 router.get('/', validateQuery(listQuerySchema), getWorkouts);router.post('/', validate(workoutSchema), createWorkout);
+router.get('/stats', getStats);
 router.get('/:id', getWorkoutById);
 router.put('/:id', validate(workoutSchema), updateWorkout);
 router.delete('/:id', deleteWorkout);
