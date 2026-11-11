@@ -1,6 +1,6 @@
 import { Schema, Types, model } from 'mongoose';
 
-export const ACTIVITY_TYPES = ['Cardio', 'Strength', 'Football', 'Gym', 'Other'] as const;
+export const ACTIVITY_TYPES = ['Cardio', 'Gym', 'Football', 'Flexibility', 'Other'] as const;
 export type ActivityType = (typeof ACTIVITY_TYPES)[number];
 
 export interface IWorkout {

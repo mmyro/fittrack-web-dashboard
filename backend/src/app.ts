@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import { env } from './config/env';
 import authRoutes from './routes/auth.routes';
 import { errorHandler, notFound } from './middleware/error.middleware';
+import workoutRoutes from './routes/workout.routes';
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.get('/api/health', (_req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
-
+app.use('/api/workouts', workoutRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
