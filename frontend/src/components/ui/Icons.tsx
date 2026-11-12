@@ -37,3 +37,11 @@ export function SearchIcon({ className = 'h-4 w-4' }: IconProps) {
     </svg>
   )
 }
+
+export function ActivityIcon({ className = 'h-4 w-4' }: IconProps) {
+  return (
+    <svg className={className} {...base}>
+      <path d="M3 12h4l3-8 4 16 3-8h4" />
+    </svg>
+  )
+}
