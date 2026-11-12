@@ -23,7 +23,7 @@ export function Modal({ title, onClose, children }: ModalProps) {
         // A click on the dark backdrop closes the modal
         if (event.target === ref.current) onClose()
       }}
-      className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-2xl p-0 shadow-xl backdrop:bg-slate-900/50"
+            className="m-auto max-h-[90vh] w-[calc(100%-2rem)] max-w-lg overflow-y-auto rounded-2xl p-0 shadow-xl backdrop:bg-slate-900/50"
     >
       <div className="p-6">
         <div className="mb-5 flex items-start justify-between gap-4">

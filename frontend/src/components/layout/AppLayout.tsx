@@ -25,8 +25,7 @@ export function AppLayout() {
                 to={link.to}
                 end={link.end}
                 className={({ isActive }) =>
-                  `rounded-xl px-4 py-2.5 font-medium transition ${
-                    isActive ? 'bg-emerald-700 text-white' : 'text-slate-300 hover:bg-slate-800'
+                  `rounded-xl px-4 py-2.5 font-medium transition ${isActive ? 'bg-emerald-700 text-white' : 'text-slate-300 hover:bg-slate-800'
                   }`
                 }
               >
@@ -38,7 +37,7 @@ export function AppLayout() {
 
         <div>
           <p className="truncate text-sm text-slate-400">{user?.email}</p>
-          <Button variant="secondary" size="sm" className="mt-3 w-full" onClick={logout}>
+          <Button variant="onDark" size="sm" className="mt-3 w-full" onClick={logout}>
             Logout
           </Button>
         </div>
@@ -51,7 +50,7 @@ export function AppLayout() {
             <span className="font-heading text-xl font-bold text-slate-900">
               Fit<span className="text-emerald-700">Track</span>
             </span>
-            <Button variant="ghost" size="sm" onClick={logout}>
+            <Button variant="secondary" size="sm" onClick={logout}>
               Logout
             </Button>
           </div>
@@ -62,8 +61,7 @@ export function AppLayout() {
                 to={link.to}
                 end={link.end}
                 className={({ isActive }) =>
-                  `rounded-xl px-4 py-1.5 text-sm font-medium ${
-                    isActive ? 'bg-emerald-700 text-white' : 'bg-slate-100 text-slate-700'
+                  `rounded-xl px-4 py-1.5 text-sm font-medium ${isActive ? 'bg-emerald-700 text-white' : 'bg-slate-100 text-slate-700'
                   }`
                 }
               >
@@ -73,7 +71,7 @@ export function AppLayout() {
           </nav>
         </header>
 
-        <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-8">
+        <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-8 sm:py-8">
           <Outlet />
         </main>
       </div>
